@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🎂 Happy Birthday 💖</title>
+
+<style>
+  body {
+    font-family: 'Comic Sans MS', cursive;
+    background: linear-gradient(135deg, pink, lavender);
+    text-align: center;
+    padding: 30px;
+    overflow: hidden;
+  }
+  h1 { font-size: 3em; color: #ff1493; }
+  p { font-size: 1.4em; }
+  button {
+    font-size: 1.3em; padding: 14px 28px; border: none; border-radius: 14px;
+    background-color: #ff69b4; color: white; cursor: pointer; margin: 6px;
+  }
+  button:hover { background-color: #ff1493; }
+  .danger { background:#e74c3c; }
+  .hidden { display:none; }
+
+  @keyframes shake {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(6px, 4px); }
+    50% { transform: translate(-6px, -4px); }
+    75% { transform: translate(4px, -6px); }
+    100% { transform: translate(0, 0); }
+  }
+
+  /* Confetti */
+  .confetti {
+    position: fixed; width: 8px; height: 12px; top: -20px;
+    animation: fall linear infinite;
+  }
+  @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+  /* Fake scan bar */
+  #scanBox {
+    width: 80%; max-width: 520px; margin: 20px auto; padding: 16px;
+    background: #111; color: #0f0; border-radius: 10px; font-family: monospace;
+  }
+  #bar { height: 12px; width: 0%; background:#0f0; margin-top: 8px; }
+</style>
+</head>
+
+<body>
+
+<h1 id="title">🎉 Happy Birthday! 🎉</h1>
+<p id="subtitle">Click for a surprise 💝</p>
+
+<button id="startBtn" onclick="startLegendary()">🎁 Open Gift 🎁</button>
+<button id="sorryBtn" class="danger hidden" onclick="sorryClicked()">🙏 Sorry</button>
+
+<div id="scanBox" class="hidden">
+  Running Birthday Scan… <span id="pct">0%</span>
+  <div id="bar"></div>
+</div>
+
+<audio id="music" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-happy.mp3">
+</audio>
+
+<script>
+  // ==== CUSTOMIZE HERE ====
+  const name = "Kelsey";
+  const sweetMessage =
+    "I love you so much ❤️ Happy Birthday! Thanks for being awesome. — Your Husband";
+  // ========================
+
+  const titles = [
+    "🎉 HAPPY BIRTHDAY!!!", "😈 NO ESCAPE", "🎂 SURPRISE AGAIN",
+    "⚠️ SYSTEM MESSAGE", "😂 GOTCHA"
+  ];
+
+  const popups = [
+    `🎉 HAPPY BIRTHDAY ${name.toUpperCase()}!!! 🎂`,
+    "🎈 SURPRISE AGAIN 🎈",
+    "💥 ERROR: TOO MUCH BIRTHDAY 💥",
+    "😂 YOU THOUGHT IT WAS OVER 😂",
+    "😈 THERE IS NO ESCAPE 😈",
+    "🎂 YOU ARE AMAZING 🎂"
+  ];
+
+  let speed = 1100, count = 0, phase = 0, scan = 0;
+
+  function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  function popup(){ alert(rand(popups)); }
+
+  function chaos(){
+    popup(); count++;
+    document.title = rand(titles);
+
+    if (count > 4) document.body.style.animation = "shake .25s infinite";
+    if (speed > 300) speed -= 120;
+
+    // Phase changes
+    if (count === 5) startConfetti();
+    if (count === 9) startFakeScan();
+    if (count === 13) document.getElementById("sorryBtn").classList.remove("hidden");
+    if (count === 18) finale();
+
+    if (count < 18) setTimeout(chaos, speed);
+  }
+
+  function startLegendary(){
+    document.getElementById("music").play();
+    chaos();
+  }
+
+  function startConfetti(){
+    for (let i=0;i<80;i++){
+      const c=document.createElement("div");
+      c.className="confetti";
+      c.style.left=Math.random()*100+"vw";
+      c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+      c.style.animationDuration=(Math.random()*2+2)+"s";
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),6000);
+    }
+  }
+
+  function startFakeScan(){
+    const box=document.getElementById("scanBox");
+    box.classList.remove("hidden");
+    const pct=document.getElementById("pct");
+    const bar=document.getElementById("bar");
+    const t=setInterval(()=>{
+      scan+=10; pct.textContent=scan+"%"; bar.style.width=scan+"%";
+      if (scan>=100){ clearInterval(t); }
+    },300);
+  }
+
+  function sorryClicked(){
+    alert("😈 Too late… but I forgive you clicking it.");
+  }
+
+  function finale(){
+    document.body.style.animation="none";
+    document.getElementById("scanBox").classList.add("hidden");
+    document.getElementById("sorryBtn").classList.add("hidden");
+    document.getElementById("title").textContent = "🎂 Surprise Ending 🎂";
+    document.getElementById("subtitle").textContent = sweetMessage;
+    startConfetti();
+  }
+
+  window.onbeforeunload = () => "One last birthday thing… 🎂";
+</script>
+
+</body>
+</html>
