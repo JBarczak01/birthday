@@ -1,10 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<!-- ✅ MOBILE SCALING FIX -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>🎂 Happy Birthday 💖</title>
@@ -61,7 +58,6 @@
     100% { transform: translate(0, 0); }
   }
 
-  /* 🎉 CONFETTI */
   .confetti {
     position: fixed;
     width: 8px;
@@ -76,7 +72,6 @@
     }
   }
 
-  /* 🧪 FAKE SCAN */
   #scanBox {
     width: 90%;
     max-width: 520px;
@@ -115,28 +110,33 @@
   <source src="https://www.bensound.com/bensound-music/bensound-happy.mp3">
 </audio>
 
+<!-- 🔔 NEW: Continuous alarm sound -->
+<audio id="alarm" loop>
+  <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3">
+</audio>
+
 <script>
-  /* ========= CUSTOMIZE ========= */
   const name = "Kelsey";
   const sweetMessage =
     "I love you so much ❤️ Happy Birthday! Thanks for being you. — Your Husband";
-  /* ============================= */
 
   const titles = [
     "🎉 HAPPY BIRTHDAY!!!",
-    "😈 NO ESCAPE",
-    "🎂 SURPRISE AGAIN",
-    "⚠️ SYSTEM MESSAGE",
-    "😂 GOTCHA"
+    "⚠️ SYSTEM WARNING",
+    "🚨 ESCALATION DETECTED",
+    "🔥 BIRTHDAY OVERLOAD",
+    "💀 CRITICAL BIRTHDAY FAILURE",
+    "🌋 MAXIMUM BIRTHDAY CHAOS"
   ];
 
   const popups = [
     `🎉 HAPPY BIRTHDAY ${name.toUpperCase()}!!! 🎂`,
     "🎈 SURPRISE AGAIN 🎈",
     "💥 ERROR: TOO MUCH BIRTHDAY 💥",
-    "😂 YOU THOUGHT IT WAS OVER 😂",
-    "😈 THERE IS NO ESCAPE 😈",
-    "🎂 YOU ARE AMAZING 🎂"
+    "⚠️ WARNING: BIRTHDAY INTENSITY RISING ⚠️",
+    "🚨 ALERT: BIRTHDAY UNSTABLE 🚨",
+    "🔥 CRITICAL BIRTHDAY EVENT IMMINENT 🔥",
+    "💀 SYSTEM MELTDOWN: TOO MUCH CELEBRATION 💀"
   ];
 
   let speed = 1100;
@@ -159,17 +159,24 @@
     if (count > 4) {
       document.body.style.animation = "shake 0.25s infinite";
     }
+    if (count > 10) {
+      document.body.style.animation = "shake 0.15s infinite";
+    }
+    if (count > 15) {
+      document.body.style.animation = "shake 0.1s infinite";
+    }
 
-    if (speed > 320) {
-      speed -= 120;
+    if (speed > 200) {
+      speed -= 100;
     }
 
     if (count === 5) startConfetti();
+    if (count === 7) document.getElementById("alarm").play();
     if (count === 9) startFakeScan();
     if (count === 13) {
       document.getElementById("sorryBtn").classList.remove("hidden");
     }
-    if (count === 18) {
+    if (count === 20) {
       finale();
       return;
     }
@@ -187,10 +194,8 @@
       const c = document.createElement("div");
       c.className = "confetti";
       c.style.left = Math.random() * 100 + "vw";
-      c.style.background =
-        `hsl(${Math.random() * 360}, 100%, 60%)`;
-      c.style.animationDuration =
-        Math.random() * 2 + 2 + "s";
+      c.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+      c.style.animationDuration = Math.random() * 2 + 2 + "s";
       document.body.appendChild(c);
       setTimeout(() => c.remove(), 6000);
     }
@@ -211,7 +216,7 @@
   }
 
   function sorryClicked() {
-    alert("😈 Too late… but I forgive you anyway.");
+    alert("😈 Too late… escalation cannot be stopped.");
   }
 
   function finale() {
@@ -219,7 +224,7 @@
     document.getElementById("scanBox").classList.add("hidden");
     document.getElementById("sorryBtn").classList.add("hidden");
 
-    document.getElementById("title").textContent = "🎂 Surprise Ending 🎂";
+    document.getElementById("title").textContent = "🎂 FINAL BIRTHDAY FORM 🎂";
     document.getElementById("subtitle").textContent = sweetMessage;
 
     startConfetti();
